@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faicad</title>
+  <meta name="description" content="Faicad — Open-source 3D tools and CAD utilities" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-hover: #1c2333;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79c0ff;
+      --green: #3fb950;
+    }
+    [data-theme="light"] {
+      --bg: #ffffff;
+      --bg-card: #f6f8fa;
+      --bg-hover: #eef1f5;
+      --border: #d0d7de;
+      --text: #1f2328;
+      --text-secondary: #656d76;
+      --accent: #0969da;
+      --accent-hover: #0550ae;
+      --green: #1a7f37;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 80px;
+    }
+    .logo { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .lang-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .lang-toggle:hover { color: var(--text); border-color: var(--text-secondary); }
+
+    /* Hero */
+    .hero { text-align: center; margin-bottom: 80px; }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Projects */
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .project-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+    .project-card:hover {
+      background: var(--bg-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .project-icon {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .project-info h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .project-info p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(88, 166, 255, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(88, 166, 255, 0.2);
+    }
+    .tag.green { background: rgba(63, 185, 80, 0.1); color: var(--green); border-color: rgba(63, 185, 80, 0.2); }
+
+    /* Footer */
+    footer {
+      margin-top: 80px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .container { padding: 24px 16px; }
+      header { margin-bottom: 48px; }
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 16px; }
+      .project-card { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo"><span>Faicad</span></div>
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">中文</button>
+    </header>
+
+    <section class="hero">
+      <h1 data-en="Open-source 3D Tools" data-zh="开源 3D 工具">Open-source 3D Tools</h1>
+      <p data-en="Building practical tools for 3D model viewing, format conversion, and CAD workflows."
+         data-zh="构建用于 3D 模型查看、格式转换和 CAD 工作流的实用工具。">
+        Building practical tools for 3D model viewing, format conversion, and CAD workflows.
+      </p>
+    </section>
+
+    <section>
+      <div class="section-title" data-en="Projects" data-zh="项目">Projects</div>
+      <a class="project-card" href="https://faicad.github.io/3d_viewer_electron/" target="_blank">
+        <div class="project-icon">🧊</div>
+        <div class="project-info">
+          <h3 data-en="3D Model Viewer" data-zh="3D 模型查看器">3D Model Viewer</h3>
+          <p data-en="Cross-platform desktop application for viewing 27+ 3D file formats, built with Electron and Three.js. Features PBR rendering, topology selection, and multi-format support including STL, GLB, STEP, OBJ, FBX, and more."
+             data-zh="跨平台桌面应用程序，支持查看 27+ 种 3D 文件格式，基于 Electron 和 Three.js 构建。支持 PBR 渲染、拓扑选择、多种格式（STL、GLB、STEP、OBJ、FBX 等）。">
+            Cross-platform desktop application for viewing 27+ 3D file formats, built with Electron and Three.js.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Electron</span>
+            <span class="tag">Three.js</span>
+            <span class="tag green">React</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag green">LGPL-2.0</span>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <footer>
+      <p>© 2026 <a href="https://github.com/faicad">Faicad</a> &mdash; <span data-en="Open-source tools for the 3D community" data-zh="为 3D 社区打造的开源工具">Open-source tools for the 3D community</span></p>
+    </footer>
+  </div>
+
+  <script>
+    const LANG_KEY = 'faicad-lang';
+    let currentLang = localStorage.getItem(LANG_KEY) || 'en';
+    const btn = document.getElementById('langToggle');
+
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem(LANG_KEY, lang);
+      btn.textContent = lang === 'en' ? '中文' : 'English';
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.getAttribute('data-' + lang);
+        if (text) el.textContent = text;
+      });
+    }
+
+    function toggleLang() {
+      setLang(currentLang === 'en' ? 'zh' : 'en');
+    }
+
+    // Theme toggle: respect system preference
+    const themeBtn = document.createElement('button');
+    themeBtn.className = 'lang-toggle';
+    themeBtn.style.marginLeft = '8px';
+
+    function getSystemTheme() { return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; }
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      themeBtn.textContent = t === 'dark' ? '☀' : '☾';
+    }
+    const savedTheme = localStorage.getItem('faicad-theme');
+    if (savedTheme) applyTheme(savedTheme);
+    else applyTheme(getSystemTheme());
+
+    themeBtn.onclick = () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem('faicad-theme', next);
+    };
+
+    document.querySelector('header').appendChild(themeBtn);
+
+    setLang(currentLang);
+  </script>
+</body>
+</html>
