@@ -58,6 +58,16 @@
       transition: all 0.2s;
     }
     .lang-toggle:hover { color: var(--text); border-color: var(--text-secondary); }
+    select.lang-toggle {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: var(--bg-card);
+      padding-right: 28px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b949e' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+    }
 
     /* Hero */
     .hero { text-align: center; margin-bottom: 80px; }
@@ -164,7 +174,12 @@
   <div class="container">
     <header>
       <div class="logo"><span>Faicad</span></div>
-      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">中文</button>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select class="lang-toggle" id="langToggle">
+          <option value="en">English</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
     </header>
 
     <section class="hero">
@@ -237,26 +252,24 @@
   <script>
     const LANG_KEY = 'faicad-lang';
     let currentLang = localStorage.getItem(LANG_KEY) || 'en';
-    const btn = document.getElementById('langToggle');
+    const sel = document.getElementById('langToggle');
 
     function setLang(lang) {
       currentLang = lang;
       localStorage.setItem(LANG_KEY, lang);
-      btn.textContent = lang === 'en' ? '中文' : 'English';
+      sel.value = lang;
       document.querySelectorAll('[data-en]').forEach(el => {
         const text = el.getAttribute('data-' + lang);
         if (text) el.textContent = text;
       });
     }
 
-    function toggleLang() {
-      setLang(currentLang === 'en' ? 'zh' : 'en');
-    }
+    sel.addEventListener('change', () => setLang(sel.value));
 
     // Theme toggle: respect system preference
     const themeBtn = document.createElement('button');
     themeBtn.className = 'lang-toggle';
-    themeBtn.style.marginLeft = '8px';
+    themeBtn.style.marginLeft = '0px';
 
     function getSystemTheme() { return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; }
     function applyTheme(t) {
@@ -273,7 +286,7 @@
       localStorage.setItem('faicad-theme', next);
     };
 
-    document.querySelector('header').appendChild(themeBtn);
+    document.querySelector('header > div:last-child').appendChild(themeBtn);
 
     setLang(currentLang);
   </script>
