@@ -45,8 +45,11 @@
       justify-content: space-between;
       margin-bottom: 80px;
     }
-    .logo { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-    .logo span { color: var(--accent); }
+    .logo { display: flex; align-items: flex-end; gap: 2px; font-weight: 700; letter-spacing: -0.5px; }
+    .logo img { height: 32px; width: 32px; margin-right: 4px; }
+    .logo-fai { font-size: 24px; color: var(--accent); }
+    .logo-cad { font-size: 22px; color: var(--accent); }
+    [data-theme="dark"] .logo img { filter: invert(1); }
     .lang-toggle {
       background: none;
       border: 1px solid var(--border);
@@ -173,7 +176,7 @@
 <body>
   <div class="container">
     <header>
-      <div class="logo"><span>Faicad</span></div>
+      <div class="logo"><img src="./logo.svg" alt="Faicad" /><span class="logo-fai">Fai</span><span class="logo-cad">CAD</span></div>
       <div style="display:flex;gap:8px;align-items:center">
         <select class="lang-toggle" id="langToggle">
           <option value="en">English</option>
