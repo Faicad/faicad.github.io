@@ -3,7 +3,6 @@
 ## 项目结构
 - `index.html` — 网站首页（国际版源码）
 - `build.js` — CN 版构建脚本
-- `.github/workflows/deploy-cn.yml` — CI 自动部署国内版
 
 ## 部署
 - 国际版 `faicad.com`：`git push origin master` → GitHub Pages

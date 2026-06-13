@@ -2,7 +2,6 @@
 
 ## 部署
 - `git push origin master` → `faicad.com`
-- `node build.js` → `dist/cn/` → 推送到 `Faicad/faicad.cn`
 
 ## 规则
 - HTML 页面必须考虑 SEO 优化（所有当前和未来的页面）
