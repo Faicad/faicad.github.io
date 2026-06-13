@@ -25,3 +25,4 @@
 - 不要用 `{{PLACEHOLDER}}` 占位符。国际版就是源码，CN 版构建时做字符串替换：`faicad.com` → `faicad.cn`
 - 构建标记用 `<!-- cn:xxx -->` HTML 注释做注入位置标记，`build.js` 的 `INJECTIONS` 对象里写替换内容
 - 构建写坏文件时用 `git reset --soft` 修复提交历史，不要留 revert 垃圾 commit
+- 所有 commit 信息用英文编写
