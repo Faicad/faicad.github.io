@@ -113,9 +113,9 @@
       padding: 24px;
       text-decoration: none;
       color: inherit;
-      cursor: pointer;
       transition: all 0.2s;
     }
+    .project-icon, .project-info p { cursor: pointer; }
     .project-card:hover {
       background: var(--bg-hover);
       border-color: var(--accent);
@@ -306,9 +306,11 @@
       const link = card.querySelector('h3 a');
       if (!link) return;
       card.addEventListener('click', e => {
-        const target = e.target.closest('.project-icon, h3, .project-info > p');
-        if (!target) return;
-        link.click();
+        if (e.target.closest('.project-tags')) return;
+        if (e.target.closest('a')) return;
+        if (e.target.closest('.project-icon, .project-info p')) {
+          link.click();
+        }
       });
     });
   </script>
