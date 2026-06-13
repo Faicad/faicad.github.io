@@ -10,9 +10,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const HTML_PATH = join(__dirname, 'index.html');
 
 const CARDS = [
-  { name: '3D Viewer SKILL', icon: '🌐', url: 'https://www.faicad.com/3d_viewer/' },
-  { name: '3D Model Viewer', icon: '🧊', url: 'https://www.faicad.com/3d_viewer_electron/' },
-  { name: '3D Model Viewer (Tauri)', icon: '🦀', url: 'https://www.faicad.com/Faicad/3d_viewer_tauri' },
+  { name: '3D Viewer SKILL', url: 'https://www.faicad.com/3d_viewer/' },
+  { name: '3D Model Viewer', url: 'https://www.faicad.com/3d_viewer_electron/' },
+  { name: '3D Model Viewer (Tauri)', url: 'https://www.faicad.com/Faicad/3d_viewer_tauri' },
 ];
 
 let server, browser, page;
@@ -45,50 +45,51 @@ test.after(async () => {
 });
 
 for (const card of CARDS) {
-  test(`${card.name}: click icon navigates to product`, async () => {
-    const [popup] = await Promise.all([
-      page.waitForEvent('popup', { timeout: 3000 }),
+  test(`${card.name}: click icon navigates to product (same tab)`, async () => {
+    await Promise.all([
+      page.waitForURL(card.url, { timeout: 3000 }),
       cardLocator(card).locator('.project-icon').click(),
     ]);
-    assert.equal(popup.url(), card.url);
-    await popup.close();
+    await page.goBack();
+    await page.waitForLoadState('networkidle');
   });
 
-  test(`${card.name}: click description navigates to product`, async () => {
-    const [popup] = await Promise.all([
-      page.waitForEvent('popup', { timeout: 3000 }),
+  test(`${card.name}: click description navigates to product (same tab)`, async () => {
+    await Promise.all([
+      page.waitForURL(card.url, { timeout: 3000 }),
       cardLocator(card).locator('.project-info p').click(),
     ]);
-    assert.equal(popup.url(), card.url);
-    await popup.close();
+    await page.goBack();
+    await page.waitForLoadState('networkidle');
   });
 
-  test(`${card.name}: click title link navigates to product (native <a>)`, async () => {
-    const [popup] = await Promise.all([
-      page.waitForEvent('popup', { timeout: 3000 }),
+  test(`${card.name}: click title link navigates to product (same tab)`, async () => {
+    await Promise.all([
+      page.waitForURL(card.url, { timeout: 3000 }),
       cardLocator(card).locator('h3 a').click(),
     ]);
-    assert.equal(popup.url(), card.url);
-    await popup.close();
+    await page.goBack();
+    await page.waitForLoadState('networkidle');
   });
 
   test(`${card.name}: click tag span does NOT navigate`, async () => {
-    let opened = false;
-    const handler = () => { opened = true; };
-    page.on('popup', handler);
+    const before = page.url();
     await cardLocator(card).locator('span.tag').first().click();
-    await new Promise(r => setTimeout(r, 1000));
-    page.removeListener('popup', handler);
-    assert.equal(opened, false);
+    assert.equal(page.url(), before);
   });
 
   test(`${card.name}: click tags container does NOT navigate to product`, async () => {
-    let opened = false;
-    const handler = () => { opened = true; };
-    page.on('popup', handler);
+    const before = page.url();
     await cardLocator(card).locator('.project-tags').click({ position: { x: 5, y: 5 } });
-    await new Promise(r => setTimeout(r, 1000));
-    page.removeListener('popup', handler);
-    assert.equal(opened, false);
+    assert.equal(page.url(), before);
+  });
+
+  test(`${card.name}: click source link opens new tab (target=_blank)`, async () => {
+    const [popup] = await Promise.all([
+      page.waitForEvent('popup', { timeout: 3000 }),
+      cardLocator(card).locator('a.tag').click(),
+    ]);
+    assert.ok(popup, 'should open a popup');
+    await popup.close();
   });
 }

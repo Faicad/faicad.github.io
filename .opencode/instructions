@@ -1,0 +1,18 @@
+# Faicad 项目记忆
+
+## 部署
+- `git push origin master` → `faicad.com`
+- `node build.js` → `dist/cn/` → 推送到 `Faicad/faicad.cn`
+
+## 规则
+- HTML 页面必须考虑 SEO 优化（所有当前和未来的页面）
+- 改 HTML 前必须读文件
+- push 前必须问用户
+
+## 历史教训
+- 不要私自 push
+- 只做要求的，不加多余东西
+- 项目卡片用 `<div>`，产品链接在标题 `<a>`，source 链接在 tags 区
+- 国际版就是源码，CN 版用字符串替换构建
+- 构建标记用 HTML 注释 `<!-- cn:start -->`
+- 用 `git reset --soft` 修复提交历史，不留 revert commit
