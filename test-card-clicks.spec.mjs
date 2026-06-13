@@ -36,6 +36,8 @@ test.before(async () => {
   const baseUrl = await startServer();
   browser = await chromium.launch({ headless: true });
   page = await browser.newPage();
+  // mock external product URLs so navigation completes immediately
+  await page.route('**/www.faicad.com/**', route => route.fulfill({ body: '<html></html>' }));
   await page.goto(baseUrl);
 });
 
@@ -47,29 +49,29 @@ test.after(async () => {
 for (const card of CARDS) {
   test(`${card.name}: click icon navigates to product (same tab)`, async () => {
     await Promise.all([
-      page.waitForURL(card.url, { timeout: 3000 }),
+      page.waitForURL(card.url, { wait: 'commit', timeout: 3000 }),
       cardLocator(card).locator('.project-icon').click(),
     ]);
-    await page.goBack();
-    await page.waitForLoadState('networkidle');
+    await page.goBack({ wait: 'commit' });
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test(`${card.name}: click description navigates to product (same tab)`, async () => {
     await Promise.all([
-      page.waitForURL(card.url, { timeout: 3000 }),
+      page.waitForURL(card.url, { wait: 'commit', timeout: 3000 }),
       cardLocator(card).locator('.project-info p').click(),
     ]);
-    await page.goBack();
-    await page.waitForLoadState('networkidle');
+    await page.goBack({ wait: 'commit' });
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test(`${card.name}: click title link navigates to product (same tab)`, async () => {
     await Promise.all([
-      page.waitForURL(card.url, { timeout: 3000 }),
+      page.waitForURL(card.url, { wait: 'commit', timeout: 3000 }),
       cardLocator(card).locator('h3 a').click(),
     ]);
-    await page.goBack();
-    await page.waitForLoadState('networkidle');
+    await page.goBack({ wait: 'commit' });
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test(`${card.name}: click tag span does NOT navigate`, async () => {
