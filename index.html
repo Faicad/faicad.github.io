@@ -113,6 +113,7 @@
       padding: 24px;
       text-decoration: none;
       color: inherit;
+      cursor: pointer;
       transition: all 0.2s;
     }
     .project-card:hover {
@@ -300,6 +301,15 @@
     document.querySelector('header > div:last-child').appendChild(themeBtn);
 
     setLang(currentLang);
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      const link = card.querySelector('h3 a');
+      if (!link) return;
+      card.addEventListener('click', e => {
+        if (e.target.closest('a')) return;
+        link.click();
+      });
+    });
   </script>
 </body>
 </html>
