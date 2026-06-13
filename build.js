@@ -24,30 +24,36 @@ const INJECTIONS = {
 const SRC = '.'
 const OUT = 'dist/cn'
 
-function processFile(filePath, rel) {
-  let content = fs.readFileSync(filePath, 'utf-8')
+const EXCLUDE = new Set(['dist', '.git', '.github', 'node_modules', '.opencode'])
+const EXCLUDE_FILE = /(^|\/)(package(-lock)?\.json|AGENTS\.md|PLAN\.md|build\.js|\.gitignore|CNAME|.+\.spec\.mjs)$/
 
-  for (const [from, to] of REPLACEMENTS) {
-    content = content.split(from).join(to)
-  }
-  for (const [marker, html] of Object.entries(INJECTIONS)) {
-    content = content.split(marker).join(html)
-  }
-
+function copyFile(filePath, rel) {
   const outPath = path.join(OUT, rel)
   fs.mkdirSync(path.dirname(outPath), { recursive: true })
-  fs.writeFileSync(outPath, content)
+  if (/\.html$/.test(rel)) {
+    let content = fs.readFileSync(filePath, 'utf-8')
+    for (const [from, to] of REPLACEMENTS) {
+      content = content.split(from).join(to)
+    }
+    for (const [marker, html] of Object.entries(INJECTIONS)) {
+      content = content.split(marker).join(html)
+    }
+    fs.writeFileSync(outPath, content)
+  } else {
+    fs.copyFileSync(filePath, outPath)
+  }
   console.log(`  ✓ ${rel}`)
 }
 
 function walk(dir, rel = '') {
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const e of entries) {
-    if (e.name === 'dist' || e.name === '.git' || e.name === 'node_modules') continue
+    if (EXCLUDE.has(e.name)) continue
+    if (EXCLUDE_FILE.test(e.name)) continue
     const full = path.join(dir, e.name)
     const r = path.join(rel, e.name)
     if (e.isDirectory()) walk(full, r)
-    else if (e.isFile() && /\.html$/.test(e.name)) processFile(full, r)
+    else copyFile(full, r)
   }
 }
 
