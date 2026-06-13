@@ -57,3 +57,42 @@ test('CN build: ICP should be visible in DOM', async () => {
   await browser.close();
   server.close();
 });
+
+test('CN build: default language is Chinese', async () => {
+  const cnPath = join(__dirname, 'dist', 'cn', 'index.html');
+  const html = readFileSync(cnPath, 'utf-8');
+  const { server, url } = await serveHtml(html);
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage();
+  await page.goto(url);
+
+  // lang attribute should be zh-CN
+  const lang = await page.locator('html').getAttribute('lang');
+  assert.equal(lang, 'zh-CN');
+
+  // page should render Chinese by default
+  const h1 = await page.locator('h1').innerText();
+  assert.equal(h1, '开源 3D 工具');
+
+  await browser.close();
+  server.close();
+});
+
+test('EN source: default language is English', async () => {
+  const html = readFileSync(join(__dirname, 'index.html'), 'utf-8');
+  const { server, url } = await serveHtml(html);
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage();
+  await page.goto(url);
+
+  // lang attribute should be en
+  const lang = await page.locator('html').getAttribute('lang');
+  assert.equal(lang, 'en');
+
+  // page should render English by default
+  const h1 = await page.locator('h1').innerText();
+  assert.equal(h1, 'Open-source 3D Tools');
+
+  await browser.close();
+  server.close();
+});
