@@ -16,10 +16,10 @@ const REPLACEMENTS = [
   ["|| 'en'", "|| 'zh'"],
 ]
 
-const MARKERS = [
-  ['<!-- cn:start -->', ''],
-  ['<!-- cn:end -->', ''],
-]
+const INJECTIONS = {
+  '<!-- cn:icp -->':
+    '<div style="text-align:center;padding:10px;font-size:12px;color:var(--text-secondary)"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" style="color:var(--text-secondary);text-decoration:none">浙ICP备2026042810号</a></div>',
+}
 
 const SRC = '.'
 const OUT = 'dist/cn'
@@ -30,8 +30,8 @@ function processFile(filePath, rel) {
   for (const [from, to] of REPLACEMENTS) {
     content = content.split(from).join(to)
   }
-  for (const [m, r] of MARKERS) {
-    content = content.split(m).join(r)
+  for (const [marker, html] of Object.entries(INJECTIONS)) {
+    content = content.split(marker).join(html)
   }
 
   const outPath = path.join(OUT, rel)

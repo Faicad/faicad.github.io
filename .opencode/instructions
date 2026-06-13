@@ -14,5 +14,5 @@
 - 只做要求的，不加多余东西
 - 项目卡片用 `<div>`，产品链接在标题 `<a>`，source 链接在 tags 区
 - 国际版就是源码，CN 版用字符串替换构建
-- 构建标记用 HTML 注释 `<!-- cn:start -->`
+- 构建标记用 `<!-- cn:xxx -->` HTML 注释做注入位置标记，`build.js` 的 `INJECTIONS` 对象里写替换内容
 - 用 `git reset --soft` 修复提交历史，不留 revert commit

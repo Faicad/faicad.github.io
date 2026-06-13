@@ -24,5 +24,5 @@
 - 项目卡片结构：用 `<div>` 而不是 `<a>`，产品链接放在标题 `<a>`，source 链接用 `<a>` 放在 tags 区（嵌套 `<a>` 只在实际测试过的浏览器中凑合能用，但不要嵌套）
 - `target="_blank"` 规则：本网站项目/产品链接（同域名）不加 `target="_blank"`；非本网站外链（GitHub 等）必须加 `target="_blank"`
 - 不要用 `{{PLACEHOLDER}}` 占位符。国际版就是源码，CN 版构建时做字符串替换：`faicad.com` → `faicad.cn`
-- 构建标记用 `<!-- cn:start -->` / `<!-- cn:end -->` HTML 注释
+- 构建标记用 `<!-- cn:xxx -->` HTML 注释做注入位置标记，`build.js` 的 `INJECTIONS` 对象里写替换内容
 - 构建写坏文件时用 `git reset --soft` 修复提交历史，不要留 revert 垃圾 commit
