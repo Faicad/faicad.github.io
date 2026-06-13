@@ -306,7 +306,8 @@
       const link = card.querySelector('h3 a');
       if (!link) return;
       card.addEventListener('click', e => {
-        if (e.target.closest('a')) return;
+        const target = e.target.closest('.project-icon, h3, .project-info > p');
+        if (!target) return;
         link.click();
       });
     });
